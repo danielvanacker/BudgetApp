@@ -1,0 +1,30 @@
+<h1>transaction-form works!</h1>
+
+<form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+<label>
+  Date
+  <input type="date" formControlName="date">
+</label>
+
+<label>
+  Amount:
+  <input type="number" formControlName="amount">
+</label>
+
+<label>
+  Comment:
+  <input type="text" formControlName="comment">
+</label>
+
+<label>
+  Category:
+  <select class="custom-select" formControlName="category">
+    <option value="" disabled>Choose a category</option>
+    <option *ngFor="let category of categories" [ngValue]="category">{{ category }}</option>
+ </select>
+</label>
+</form>
+
+
+<br />
+<button (click)="onSubmit()"> Submit </button>
