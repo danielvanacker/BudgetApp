@@ -16,6 +16,20 @@ def getAllTransactions():
     closeConnection(conn, cursor)
     return toReturn
 
+def getAllPeople():
+    (conn, cursor) = openConnection()
+    cursor.execute('SELECT * FROM people;')
+    toReturn = cursor.fetchall()
+    closeConnection(conn, cursor)
+    return toReturn
+
+def getAllCategories():
+    (conn, cursor) = openConnection()
+    cursor.execute('SELECT * FROM category;')
+    toReturn = cursor.fetchall()
+    closeConnection(conn, cursor)
+    return toReturn
+
 def getAllBudget():
     conn = sqlite3.connect('C:/Users/grano/Desktop/Budget/BudgetApp/db/budgetdb')
     cursor = conn.cursor()

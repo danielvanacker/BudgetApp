@@ -7,8 +7,8 @@ import { MenuBarComponent } from './shared/menu-bar/menu-bar.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TransactionFormComponent } from './components/transaction-form/transaction-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { ApiService } from './services/api.service';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BaseUrlInterceptor } from './base-url-interceptor';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,7 @@ import { ApiService } from './services/api.service';
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

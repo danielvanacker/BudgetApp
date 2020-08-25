@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormControlDirective } from '@angular/forms';
-import * as _ from 'lodash';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
@@ -13,13 +12,12 @@ export class TransactionFormComponent implements OnInit {
   public categories: string[];
   public people: string[];
   transactionForm = new FormGroup({
-    incomeOrExpense: new FormControl(''),
     date: new FormControl(''),
     amount: new FormControl(0),
     comment: new FormControl(''),
     category: new FormControl(''),
     paidBy: new FormControl(''),
-    person: new FormControl(''),
+    person: new FormControl('No one'),
     myPortion: new FormControl(''),
   })
 
@@ -29,20 +27,25 @@ export class TransactionFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.apiservice.getCategories().subscribe((data: any) => {
-      this.categories = data;
+      this.categories = data.map(category => {
+        return [category[0], category[1] === 1 ? 'Income' : 'Expense'];
+      });
     });
-    this.apiservice.getCategories().subscribe((data: any) => {
-      this.people = data;
+    this.apiservice.getPeople().subscribe((data: any) => {
+      this.people = data.map(person => {return person[0]});
+      console.log(this.people);
+      this.people.push('No one');
     });
   }
 
   onSubmit(): void {
-    console.log(this.transactionForm.value)
+    console.log(this.transactionForm.value);
+    this.apiservice.addTransaction(this.transactionForm.value).subscribe();
   }
 
   public isSplitTransaction(): boolean {
-    const splitWith = _.get(this.transactionForm, 'value.person', '').toLowerCase();
-    if(splitWith === 'me' || splitWith === '') {
+    const splitWith = this.transactionForm.value.person;
+    if(splitWith === 'No one' || splitWith === '') {
       return false;
     }
     return true;
