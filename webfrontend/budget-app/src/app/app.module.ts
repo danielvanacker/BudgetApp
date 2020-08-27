@@ -9,6 +9,8 @@ import { TransactionFormComponent } from './components/transaction-form/transact
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BaseUrlInterceptor } from './base-url-interceptor';
+import { TransactionGridComponent } from './components/ag-grid/transaction-grid/transaction-grid.component';
+import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
   declarations: [
@@ -16,12 +18,14 @@ import { BaseUrlInterceptor } from './base-url-interceptor';
     MenuBarComponent,
     DashboardComponent,
     TransactionFormComponent,
+    TransactionGridComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    AgGridModule.withComponents([]),
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true }],
   bootstrap: [AppComponent]

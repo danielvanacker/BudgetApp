@@ -1,4 +1,5 @@
 import sqlite3
+import json
 
 def openConnection():
     conn = sqlite3.connect('C:/Users/grano/Desktop/Budget/BudgetApp/db/budgetdb')
@@ -9,13 +10,6 @@ def closeConnection(conn, cursor):
     conn.commit()
     cursor.close()
     conn.close()
-
-def getAllTransactions():
-    (conn, cursor) = openConnection()
-    cursor.execute('SELECT * FROM expense UNION SELECT * FROM income;')
-    toReturn = cursor.fetchall()
-    closeConnection(conn, cursor)
-    return toReturn
 
 def getAllPeople():
     (conn, cursor) = openConnection()
@@ -58,3 +52,12 @@ def insertMoneyOwed(date, amount, comment, splitWith, expenseId):
     rowId = cursor.lastrowid
     closeConnection(conn, cursor)
     return rowId
+
+def getAllTransactions():
+    (conn, cursor) = openConnection()
+    result = cursor.execute("SELECT category, amount, date, comment, 'Expense' as transactionGroup FROM expense UNION SELECT category, amount, date, comment, 'Income' as transactionGroup FROM income;")
+    
+    items = [dict(zip([key[0] for key in cursor.description], row)) for row in result]
+    print(json.dumps({'items': items}))
+    closeConnection(conn, cursor)
+    return {'transactions': items}

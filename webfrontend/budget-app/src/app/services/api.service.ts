@@ -10,6 +10,10 @@ export class ApiService {
 
   constructor(private http: HttpClient) {  }
 
+  public getAllTransactions(): Observable<any> {
+    return this.http.get('transactions')
+  }
+
   public getPeople(): Observable<any> {
     return this.http.get('people');
   };

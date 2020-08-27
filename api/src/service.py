@@ -7,6 +7,9 @@ def getAllPeople():
 def getAllCategories():
     return repository.getAllCategories()
 
+def getAllTransactions():
+    return repository.getAllTransactions()
+
 def insertTransaction(transaction):
     comment = transaction[c.COMMENT]
     date = transaction[c.DATE]

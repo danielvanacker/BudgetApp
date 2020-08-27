@@ -24,4 +24,10 @@ def insertTransaction():
     response = jsonify(service.insertTransaction(request.json))
     return response
 
+@app.route('/transactions', methods=['GET'])
+@cross_origin()
+def getAllTransactions():
+    response = jsonify(service.getAllTransactions())
+    return response
+
 app.run()

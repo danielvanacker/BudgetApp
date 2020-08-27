@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ValidatorFn, ValidationErrors, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
-import { isString, isNumber } from 'util';
 import { isEmptyNullUndefined, myPortionValidator } from './transaction-form.utils';
 
 @Component({
   selector: 'transaction-form',
   templateUrl: './transaction-form.component.html',
-  styleUrls: ['./transaction-form.component.css']
+  styleUrls: ['./transaction-form.component.scss']
 })
 
 export class TransactionFormComponent implements OnInit {
