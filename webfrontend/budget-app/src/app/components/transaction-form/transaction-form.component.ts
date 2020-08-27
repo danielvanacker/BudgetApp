@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ValidatorFn, ValidationErrors, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
+import { isString, isNumber } from 'util';
+import { isEmptyNullUndefined, myPortionValidator } from './transaction-form.utils';
 
 @Component({
   selector: 'transaction-form',
@@ -12,14 +14,13 @@ export class TransactionFormComponent implements OnInit {
   public categories: string[];
   public people: string[];
   transactionForm = new FormGroup({
-    date: new FormControl(''),
-    amount: new FormControl(0),
+    date: new FormControl('', [Validators.required]),
+    amount: new FormControl(0, [Validators.required]),
     comment: new FormControl(''),
-    category: new FormControl(''),
-    paidBy: new FormControl(''),
+    category: new FormControl('', [Validators.required]),
     person: new FormControl('No one'),
     myPortion: new FormControl(''),
-  })
+  }, { validators: myPortionValidator });
 
   constructor(private apiservice: ApiService) {
 
@@ -41,6 +42,11 @@ export class TransactionFormComponent implements OnInit {
   onSubmit(): void {
     console.log(this.transactionForm.value);
     this.apiservice.addTransaction(this.transactionForm.value).subscribe();
+  }
+
+  public isNotIncome(): boolean {
+    const category = this.transactionForm.value.category;
+    return isEmptyNullUndefined(category) || category[1] === 'Expense';
   }
 
   public isSplitTransaction(): boolean {

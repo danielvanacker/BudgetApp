@@ -6,6 +6,7 @@ def openConnection():
     return (conn, cursor)
 
 def closeConnection(conn, cursor):
+    conn.commit()
     cursor.close()
     conn.close()
 
@@ -37,3 +38,23 @@ def getAllBudget():
     toReturn = cursor.fetchall()
     closeConnection(conn, cursor)
     return toReturn
+
+def insertIncome(date, amount, comment, category):
+    (conn, cursor) = openConnection()
+    cursor.execute("INSERT INTO income (date, amount, comment, category) VALUES (?, ?, ?, ?)", (date, amount, comment, category))
+    closeConnection(conn, cursor)
+    return 'Success'
+
+def insertExpense(date, amount, comment, category):
+    (conn, cursor) = openConnection()
+    cursor.execute("INSERT INTO expense (date, amount, comment, category) VALUES (?, ?, ?, ?)", (date, amount, comment, category))
+    rowId = cursor.lastrowid
+    closeConnection(conn, cursor)
+    return rowId
+
+def insertMoneyOwed(date, amount, comment, splitWith, expenseId):
+    (conn, cursor) = openConnection()
+    cursor.execute("INSERT INTO money_owed (date, amount, comment, person, expense_id) VALUES (?, ?, ?, ?, ?)", (date, amount, comment, splitWith, expenseId))
+    rowId = cursor.lastrowid
+    closeConnection(conn, cursor)
+    return rowId
