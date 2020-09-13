@@ -8,6 +8,7 @@ import { BaseUrlInterceptor } from './base-url-interceptor';
 import { AppRoutes } from './app.routing';
 import { RouterModule } from '@angular/router';
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { UserLayoutComponent } from './layouts/user-layout/user-layout.component
     BrowserModule,
     RouterModule.forRoot(AppRoutes, {useHash: true}),
     HttpClientModule,
+    FontAwesomeModule,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true }],
   bootstrap: [AppComponent]

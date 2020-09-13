@@ -1,0 +1,10 @@
+h1, h2, h3, h4, h5, h6, p, fa-icon {
+  font-family: $font-family-sans-serif;
+  color: $font-color;
+}
+
+a {
+  :focus {
+    color: $info-color;
+  }
+}

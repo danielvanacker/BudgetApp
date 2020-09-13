@@ -1,13 +1,15 @@
-<div class="sidebar-wrapper">
-  <div class="logo">
-    <p>My Budget</p>
-    <p>         </p>
+<div class="sidebar" [ngClass]="{ 'sidebar-collapsed': isCollapsed }">
+  <div class="menu-item">
+    <span class="icon-text" (click)="onMenuButtonClick()">
+      <fa-icon [icon]="faBars"></fa-icon>
+      <h5>My Budget</h5>
+    </span>
   </div>
   <ul class="nav">
-    <li *ngFor="let menuItem of menuItems" routerLinkActive="active" class="{{menuItem.class}}">
-      <a [routerLink]="[menuItem.path]">
-        <i class="nc-icon {{menuItem.icon}}"></i>
-        <p>{{menuItem.title}}</p>
+    <li *ngFor="let menuItem of menuItems" routerLinkActive="active" class="menu-item">
+      <a class="icon-text" [routerLink]="[menuItem.path]" style="text-decoration : none">
+        <fa-icon [icon]="menuItem.icon"></fa-icon>
+        <h6>{{menuItem.title}}</h6>
       </a>
     </li>
   </ul>
