@@ -1,31 +1,24 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MenuBarComponent } from './shared/menu-bar/menu-bar.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { TransactionFormComponent } from './components/transaction-form/transaction-form.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BaseUrlInterceptor } from './base-url-interceptor';
-import { TransactionGridComponent } from './components/ag-grid/transaction-grid/transaction-grid.component';
-import { AgGridModule } from 'ag-grid-angular';
+import { AppRoutes } from './app.routing';
+import { RouterModule } from '@angular/router';
+import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuBarComponent,
-    DashboardComponent,
-    TransactionFormComponent,
-    TransactionGridComponent,
+    SidebarComponent,
+    UserLayoutComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
+    RouterModule.forRoot(AppRoutes, {useHash: true}),
     HttpClientModule,
-    AgGridModule.withComponents([]),
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true }],
   bootstrap: [AppComponent]
