@@ -1,0 +1,29 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import "../../node_modules/ag-grid-community/src/styles/ag-grid.scss";
+@import "../../node_modules/ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin.scss";
+
+
+@import "./variables.scss";
+@import "./typography.scss";
+
+.ag-theme-alpine {
+  @include ag-theme-alpine();
+}
+
+.main-pannel {
+  overflow: auto;
+  background-color: #f4f3ef;
+  width: 100%;
+}
+
+.wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  font-family: $sans-serif-family;
+}
+
+.page-wrapper {
+  padding: 30px 30px 30px 30px;
+}

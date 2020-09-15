@@ -9,6 +9,8 @@ import { TransactionGridComponent } from 'src/app/components/ag-grid/transaction
 import { RouterModule } from '@angular/router';
 import { UserLayoutRoutes } from './user-layout.routing';
 import { CalendarComponent } from 'src/app/pages/calendar/calendar.component';
+import { InfoCardComponent } from 'src/app/components/info-card/info-card.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 
@@ -18,6 +20,7 @@ import { CalendarComponent } from 'src/app/pages/calendar/calendar.component';
     CalendarComponent,
     TransactionFormComponent,
     TransactionGridComponent,
+    InfoCardComponent,
   ],
   imports: [
     RouterModule.forChild(UserLayoutRoutes),
@@ -25,6 +28,7 @@ import { CalendarComponent } from 'src/app/pages/calendar/calendar.component';
     ReactiveFormsModule,
     HttpClientModule,
     AgGridModule.withComponents([]),
+    FontAwesomeModule,
   ]
 })
 export class UserLayoutModule { }

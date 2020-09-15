@@ -1,0 +1,26 @@
+h1, h2, h3, h4, h5, h6, p, fa-icon {
+  font-family: $font-family-sans-serif;
+  color: $medium-gray;
+}
+
+a {
+  :focus {
+    color: $info-color;
+  }
+}
+
+.warning {
+  color: $warning-color;
+}
+
+.success {
+  color: $success-color;
+}
+
+.danger {
+  color: $danger-color;
+}
+
+.primary {
+  color: $primary-color;
+}

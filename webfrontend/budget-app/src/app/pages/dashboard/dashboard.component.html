@@ -1,3 +1,17 @@
-<p>dashboard works!</p>
-<transaction-grid class="transaction-grid"></transaction-grid>
-<transaction-form></transaction-form>
+<div class="page-wrapper">
+  <div class="card-deck">
+    <info-card class="card" *ngFor="let infoCard of infoCards" [icon]="infoCard.icon"
+    [category]="infoCard.category" [value]="infoCard.value" [colorClass]="infoCard.colorClass">
+    </info-card>
+  </div>
+  <div class="card-wrapper">
+    <div class="card">
+      <transaction-grid class="transaction-grid"></transaction-grid>
+    </div>
+  </div>
+  <div class="card-wrapper">
+    <div class="card">
+      <transaction-form></transaction-form>
+    </div>
+  </div>
+</div>
