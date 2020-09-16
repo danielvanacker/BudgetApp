@@ -1,0 +1,34 @@
+@import '../../../global-styles/app-styles.scss';
+
+.transaction-form-wrapper {
+  margin: 7px;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+label {
+  margin: 2px;
+}
+
+.percentage-label {
+  width: 110px;
+}
+
+input, .select {
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  height: 40px;
+}
+
+.btn-success {
+  margin-bottom: 3px;
+  border-radius: 0.25rem;
+  height: 40px;
+  background-color: $new-green;
+}
+
+

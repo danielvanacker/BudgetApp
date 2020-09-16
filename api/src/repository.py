@@ -2,7 +2,7 @@ import sqlite3
 import json
 
 def openConnection():
-    conn = sqlite3.connect('C:/Users/grano/Desktop/Budget/BudgetApp/db/budgetdb')
+    conn = sqlite3.connect('/Users/danielvanacker/Documents/dev/BudgetApp/db/budgetdb')
     cursor = conn.cursor()
     return (conn, cursor)
 

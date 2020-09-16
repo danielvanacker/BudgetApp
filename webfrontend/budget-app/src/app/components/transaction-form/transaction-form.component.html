@@ -1,44 +1,42 @@
-<h1>transaction-form works!</h1>
+<div class="transaction-form-wrapper">
+  <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+    <!-- <div class="flex-col"> -->
+      <label>
+        <p>Date:</p>
+        <input type="date" formControlName="date">
+      </label>
+      <label>
+        <p>Amount:</p>
+        <input type="number" formControlName="amount">
+      </label>
+    <!-- </div> -->
+    <!-- <div class="flex-col"> -->
+      <label>
+        <p>Comment:</p>
+        <input type="text" formControlName="comment">
+      </label>
+      <label>
+        <p>Category:</p>
+        <select class="select" formControlName="category">
+          <option value="" disabled>Choose a category</option>
+          <option *ngFor="let category of categories" [ngValue]="category">{{category[0]}} | {{category[1]}}</option>
+        </select>
+      </label>
+    <!-- </div> -->
+    <!-- <div class="flex-col"> -->
+      <label *ngIf="isNotIncome()">
+        <p>Split With:</p>
+        <select class="select" formControlName="person">
+          <option value="" disabled>Who to split with</option>
+          <option *ngFor="let person of people" [ngValue]="person">{{ person }}</option>
+      </select>
+      </label>
 
-<form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
-<label>
-  Date
-  <input type="date" formControlName="date">
-</label>
-
-<label>
-  Amount:
-  <input type="number" formControlName="amount">
-</label>
-
-<label>
-  Comment:
-  <input type="text" formControlName="comment">
-</label>
-
-<label>
-  Category:
-  <select class="custom-select" formControlName="category">
-    <option value="" disabled>Choose a category</option>
-    <option *ngFor="let category of categories" [ngValue]="category">{{category[0]}} | {{category[1]}}</option>
- </select>
-</label>
-
-<label *ngIf="isNotIncome()">
-  Split With:
-  <select class="custom-select" formControlName="person">
-    <option value="" disabled>Who to split with</option>
-    <option *ngFor="let person of people" [ngValue]="person">{{ person }}</option>
- </select>
-</label>
-
-<label *ngIf="isSplitTransaction()">
-  % Paid by Me:
-  <input type="number" formControlName="myPortion" max="100" min="0">
-</label>
-
-</form>
-
-<br />
-{{transactionForm.status}}
-<button [disabled]="!transactionForm.valid" (click)="onSubmit()"> Submit </button>
+      <label *ngIf="isSplitTransaction() && isNotIncome()">
+        <p>% Paid by Me:</p>
+        <input class="percentage-label" type="number" formControlName="myPortion" max="100" min="0">
+      </label>
+    <!-- </div> -->
+    <button [disabled]="!transactionForm.valid" (click)="onSubmit()" class="btn btn-success"> Submit </button>
+  </form>
+</div>
