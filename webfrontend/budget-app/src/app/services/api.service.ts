@@ -22,6 +22,15 @@ export class ApiService {
     return this.http.get('categories');
   };
 
+  public getTransactionMonths(): Observable<any> {
+    return this.http.get('transaction/months');
+  }
+
+  public getElapsedBudget(): Observable<any> {
+    return this.http.get('budget/elapsed');
+  }
+
+
   public addTransaction(transaction: any): Observable<any> {
     return this.http.post(
       'transaction',

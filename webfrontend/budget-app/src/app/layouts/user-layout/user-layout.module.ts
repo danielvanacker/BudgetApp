@@ -11,11 +11,13 @@ import { UserLayoutRoutes } from './user-layout.routing';
 import { CalendarComponent } from 'src/app/pages/calendar/calendar.component';
 import { InfoCardComponent } from 'src/app/components/info-card/info-card.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ElapsedBudgetGridComponent } from 'src/app/components/ag-grid/elapsed-budget-grid/elapsed-budget-grid.component';
 
 
 
 @NgModule({
   declarations: [
+    ElapsedBudgetGridComponent,
     DashboardComponent,
     CalendarComponent,
     TransactionFormComponent,

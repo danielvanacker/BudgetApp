@@ -9,12 +9,16 @@ import { AppRoutes } from './app.routing';
 import { RouterModule } from '@angular/router';
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { LoginComponent } from './pages/login/login.component';
+import { AuthGuard } from './auth.guard';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
-    UserLayoutComponent
+    UserLayoutComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +26,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     HttpClientModule,
     FontAwesomeModule,
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true }],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
+    AuthGuard,
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
