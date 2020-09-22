@@ -1,7 +1,7 @@
 import flask
-import service
 from flask import jsonify, request
 from flask_cors import CORS, cross_origin
+import service
 
 app = flask.Flask(__name__)
 cors = CORS(app, resources={r"/people": {"origins": "http://localhost:4200"}})
@@ -28,6 +28,18 @@ def insertTransaction():
 @cross_origin()
 def getAllTransactions():
     response = jsonify(service.getAllTransactions())
+    return response
+
+@app.route('/budget/elapsed', methods=['GET'])
+@cross_origin()
+def getElapsedBudget():
+    response = jsonify(service.getElapsedBudget())
+    return response
+
+@app.route('/transaction/months', methods=['GET'])
+@cross_origin()
+def getTransactionMonths():
+    response = jsonify(service.getTransactionMonths())
     return response
 
 app.run()
