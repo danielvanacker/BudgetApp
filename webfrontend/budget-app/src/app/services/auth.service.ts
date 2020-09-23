@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { delay, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { User } from '../models/genereal.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  // inspired by https://github.com/jorgecf/google-oauth-angular
+  // inspired and partially coppied from https://github.com/jorgecf/google-oauth-angular
   public gapiSetup: boolean = false; // marks if the gapi library has been loaded
   public authInstance: gapi.auth2.GoogleAuth;
   public error: string;
@@ -16,6 +16,7 @@ export class AuthService {
 
   async ngOnInit() {
     if (await this.getIsLoggedIn()) {
+      console.log("getting uer")
       this.user = this.authInstance.currentUser.get();
     }
   }
@@ -50,6 +51,8 @@ export class AuthService {
       user => this.user = user,
       error => this.error = error
     );
+    console.log("Below us user")
+    console.log(this.user)
   }
 
   async logout(): Promise<void> {
@@ -68,5 +71,17 @@ export class AuthService {
     }
 
     return this.authInstance.isSignedIn.get();
+  }
+
+  getUserProfile(): Observable<any> {
+    if(!this.user) {
+      this.user = this.authInstance.currentUser.get();
+    }
+    const profile = this.user.getBasicProfile()
+    return of({firstName: profile.getGivenName(),
+    lastName: profile.getFamilyName(),
+    email: profile.getEmail(),
+    imageUrl: profile.getImageUrl()
+  })
   }
 }

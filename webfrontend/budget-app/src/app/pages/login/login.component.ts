@@ -10,7 +10,7 @@ import { environment } from '../../../environments/environment';
 })
 export class LoginComponent implements OnInit {
 
-  public message: string = 'N/A'
+  public message: string = 'status: logged out'
   private route: string = '/dashboard';
 
   constructor(public authService: AuthService, public router: Router) { }
@@ -23,6 +23,8 @@ export class LoginComponent implements OnInit {
     if(await this.authService.getIsLoggedIn()) {
       this.message = 'status: logged in';
       this.router.navigate([this.route]);
+    } else {
+      this.message = 'status: logged out'
     }
   }
 

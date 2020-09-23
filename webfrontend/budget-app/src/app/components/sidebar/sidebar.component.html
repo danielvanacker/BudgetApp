@@ -5,6 +5,14 @@
       <h5>My Budget</h5>
     </span>
   </div>
+  <div class="profile">
+    <img class="rounded-image" src={{user.imageUrl}}>
+    <h6>{{user.firstName}} {{user.lastName}}</h6>
+    <div class="user-buttons">
+      <fa-icon class="button-icon" [icon]="faCog" (click)="openUserSettings()"></fa-icon>
+      <fa-icon class="button-icon" [icon]="faSignOutAlt" (click)="logout()"></fa-icon>
+    </div>
+  </div>
   <ul class="nav">
     <li *ngFor="let menuItem of menuItems" routerLinkActive="active" class="menu-item">
       <a class="icon-text" [routerLink]="[menuItem.path]" style="text-decoration : none">
