@@ -12,3 +12,14 @@ export class BaseUrlInterceptor implements HttpInterceptor {
     return next.handle(req);
   }
 }
+
+@Injectable()
+export class TokenInterceptor implements HttpInterceptor {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const userToken = sessionStorage.getItem('token')
+    const modifiedReq = req.clone({
+      headers: req.headers.set('token', userToken ? userToken : 'invalid'),
+    });
+    return next.handle(modifiedReq);
+  }
+}

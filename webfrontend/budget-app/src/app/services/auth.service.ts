@@ -40,6 +40,15 @@ export class AuthService {
     });
   }
 
+  // Gets the user idToken
+  getUserId(): Observable<any>{
+    if(!this.user) {
+      this.user = this.authInstance.currentUser.get();
+    }
+    const idToken: string = this.user.getAuthResponse().id_token;
+    return of(idToken);
+  }
+
   async authenticate(): Promise<void> {
     // Initialize gapi if not done yet
     if (!this.gapiSetup) {
@@ -51,7 +60,7 @@ export class AuthService {
       user => this.user = user,
       error => this.error = error
     );
-    console.log("Below us user")
+    console.log("Below is user")
     console.log(this.user)
   }
 
@@ -62,6 +71,7 @@ export class AuthService {
     }
 
     await this.authInstance.signOut();
+    sessionStorage.removeItem('token');
   }
 
   async getIsLoggedIn(): Promise<boolean> {

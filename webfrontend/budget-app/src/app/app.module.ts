@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { BaseUrlInterceptor } from './base-url-interceptor';
+import { BaseUrlInterceptor, TokenInterceptor } from './interceptors';
 import { AppRoutes } from './app.routing';
 import { RouterModule } from '@angular/router';
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
@@ -28,6 +28,7 @@ import { AuthService } from './services/auth.service';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     AuthGuard,
     AuthService
   ],

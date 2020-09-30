@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { ApiService } from './services/api.service';
 import { AuthService } from './services/auth.service';
 
 @Injectable({
@@ -11,11 +12,17 @@ export class AuthGuard implements CanActivate {
   async canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Promise<boolean> {
-      return await this.checkLogin(state.url);
+      return await this.checkLogin();
     }
 
-  async checkLogin(url: string): Promise<boolean> {
+  async checkLogin(): Promise<boolean> {
     if(await this.authService.getIsLoggedIn()) {
+      const token = sessionStorage.getItem('token');
+      if(token === 'invalid' || token === undefined || token === null) {
+        this.authService.getUserId().subscribe((userId) => {
+          sessionStorage.setItem('token', userId);
+        });
+      }
       return true;
     }
 

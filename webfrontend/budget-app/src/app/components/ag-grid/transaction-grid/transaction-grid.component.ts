@@ -22,7 +22,6 @@ export class TransactionGridComponent implements OnInit {
     this.defaultColDef = DEFAULT_COL_DEF;
     this.rowSelection = "multiple";
     this.apiservice.getAllTransactions().pipe(take(1)).subscribe((data) => {
-      console.log(data.transactions)
       this.rowData = data.transactions;
     });
   }

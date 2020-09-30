@@ -43,4 +43,18 @@ export class ApiService {
       }
     );
   }
+
+  public validateUserSession(idToken: string): Observable<any> {
+    return this.http.post(
+      'validate_session',
+      { token: idToken },
+      {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Accept': 'application/json',
+        })
+      }
+    )
+  }
+
 }

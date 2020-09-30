@@ -3,7 +3,7 @@ import { ColDef } from 'ag-grid-community/dist/lib/entities/colDef';
 import { GridOptions } from 'ag-grid-community/dist/lib/main';
 import { take } from 'rxjs/operators';
 import { ApiService } from 'src/app/services/api.service';
-import { COLOR_GREEN, COLOR_RED, COLOR_WARN, DEFAULT_COL_DEF, ELAPSED_BUDGET_GRID_PARTIAL_COL_DEFS } from '../ag-grid.utls';
+import { COLOR_GREEN, COLOR_RED, COLOR_WARN, ELAPSED_BUDGET_GRID_BASE_COL_DEFS, ELAPSED_BUDGET_GRID_DEFAULT_COL_DEF } from '../ag-grid.utls';
 
 @Component({
   selector: 'elapsed-budget-grid',
@@ -21,7 +21,7 @@ export class ElapsedBudgetGridComponent implements OnInit {
   constructor(private apiservice: ApiService) {}
 
   ngOnInit(): void {
-    this.defaultColDef = DEFAULT_COL_DEF;
+    this.defaultColDef = ELAPSED_BUDGET_GRID_DEFAULT_COL_DEF;
     this.rowSelection = "multiple";
     this.getColumnDefs();
   }
@@ -30,7 +30,10 @@ export class ElapsedBudgetGridComponent implements OnInit {
 
   private getColumnDefs(): void {
     this.apiservice.getTransactionMonths().pipe(take(1)).subscribe((months: string[]) => {
-      const colDefs: ColDef[] = ELAPSED_BUDGET_GRID_PARTIAL_COL_DEFS;
+      const colDefs: ColDef[] = [];
+      ELAPSED_BUDGET_GRID_BASE_COL_DEFS.forEach(item => {
+        colDefs.push(item);
+      })
       months.map(month => {
         colDefs.push({field: month, headerName: month, cellStyle: this.getCellStyle});
       });
@@ -57,7 +60,6 @@ export class ElapsedBudgetGridComponent implements OnInit {
 
   private getGridData(): void {
     this.apiservice.getElapsedBudget().pipe(take(1)).subscribe((data) => {
-      console.log(data)
       this.rowData = data;
     });
   }
