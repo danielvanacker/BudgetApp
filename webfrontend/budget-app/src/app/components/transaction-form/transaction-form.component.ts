@@ -28,7 +28,7 @@ export class TransactionFormComponent implements OnInit {
   ngOnInit(): void {
     this.apiservice.getCategories().subscribe((data: any) => {
       this.categories = data.map(category => {
-        return [category[0], category[1] === 1 ? 'Income' : 'Expense'];
+        return [category[0], category[1], category[2] === true ? 'Income' : 'Expense'];
       });
     });
     this.apiservice.getPeople().subscribe((data: any) => {
@@ -40,12 +40,16 @@ export class TransactionFormComponent implements OnInit {
 
   onSubmit(): void {
     console.log(this.transactionForm.value);
-    this.apiservice.addTransaction(this.transactionForm.value).subscribe();
+    this.apiservice.addTransaction(this.transactionForm.value).subscribe(success => {
+      console.log(success);
+    }, err => {
+
+    });
   }
 
   public isNotIncome(): boolean {
     const category = this.transactionForm.value.category;
-    return isEmptyNullUndefined(category) || category[1] === 'Expense';
+    return isEmptyNullUndefined(category) || category[2] === 'Expense';
   }
 
   public isSplitTransaction(): boolean {

@@ -60,23 +60,23 @@ def insertTransaction(transaction, userId):
     comment = transaction[c.COMMENT]
     date = transaction[c.DATE]
     amount = transaction[c.AMOUNT]
-    category = transaction[c.CATEGORY][0]
-    isIncome = transaction[c.CATEGORY][1] == c.INCOME
+    categoryId = transaction[c.CATEGORY][0]
+    isIncome = transaction[c.CATEGORY][2] == c.INCOME
     isSplit = transaction[c.SPLIT_WITH] != c.NO_SPLIT
     splitWith = transaction[c.SPLIT_WITH]
     myPortion = transaction[c.MY_PORTION]
 
     if(isIncome):
-        repository.insertIncome(date, amount, comment, category, userId)
+        repository.insertIncome(date, amount, comment, categoryId, userId)
 
     elif(isSplit):
         expensePortion = amount * myPortion/100
         moneyOwed = amount - expensePortion
-        expenseId = repository.insertExpense(date, expensePortion, comment, category, userId)
-        repository.insertMoneyOwed(date, moneyOwed, comment, splitWith, expenseId, userId)
+        expenseId = repository.insertExpense(date, expensePortion, comment, category, userId) #not done
+        repository.insertMoneyOwed(date, moneyOwed, comment, splitWith, expenseId, userId) #not done
 
     else:
-        repository.insertExpense(date, amount, comment, category, userId)
+        repository.insertExpense(date, amount, comment, categoryId, userId)
 
     return 'Success'
 

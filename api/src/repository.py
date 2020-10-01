@@ -1,8 +1,9 @@
-import sqlite3
+import psycopg2
 import json
 
 def openConnection():
-    conn = sqlite3.connect('/Users/danielvanacker/Documents/dev/BudgetApp/db/budgetdb')
+    conn = psycopg2.connect(
+        )
     cursor = conn.cursor()
     return (conn, cursor)
 
@@ -13,23 +14,26 @@ def closeConnection(conn, cursor):
 
 def getAllPeople(userId):
     (conn, cursor) = openConnection()
-    cursor.execute('SELECT name FROM people WHERE user_id=?;', (userId,))
+    cursor.execute('SELECT name FROM people WHERE user_id=%s;', (str(userId),))
     toReturn = cursor.fetchall()
     closeConnection(conn, cursor)
     return toReturn
 
-def insertIncome(date, amount, comment, category, userId):
+
+def insertIncome(date, amount, comment, categoryId, userId):
     (conn, cursor) = openConnection()
-    cursor.execute("INSERT INTO income (date, amount, comment, category, user_id) VALUES (?, ?, ?, ?, ?)", (date, amount, comment, category, userId))
+    cursor.execute("INSERT INTO income (date, amount, comment, category_id, user_id) VALUES (%s, %s, %s, %s, %s)", (date, amount, comment, categoryId, str(userId)))
     closeConnection(conn, cursor)
     return 'Success'
 
 def insertExpense(date, amount, comment, category, userId):
     (conn, cursor) = openConnection()
-    cursor.execute("INSERT INTO expense (date, amount, comment, category, user_id) VALUES (?, ?, ?, ?, ?)", (date, amount, comment, category, userId))
+    cursor.execute("INSERT INTO expense (date, amount, comment, category_id, user_id) VALUES (%s, %s, %s, %s, %s)", (date, amount, comment, category, str(userId)))
     rowId = cursor.lastrowid
     closeConnection(conn, cursor)
     return rowId
+
+########################
 
 def insertMoneyOwed(date, amount, comment, splitWith, expenseId, userId):
     (conn, cursor) = openConnection()
@@ -50,9 +54,10 @@ def getAllTransactions(userId):
     closeConnection(conn, cursor)
     return {'transactions': items}
 
+# DONE
 def getAllCategories(userId):
     (conn, cursor) = openConnection()
-    cursor.execute("SELECT name, is_income FROM category WHERE user_id=?", (userId,))
+    cursor.execute("SELECT id, name, is_income FROM category WHERE user_id=%s", (str(userId),))
     toReturn = cursor.fetchall()
     closeConnection(conn, cursor)
     return toReturn
@@ -138,7 +143,7 @@ def getNetIncomeByMonth(userId):
 
 def getUser(userId):
     (conn, cursor) = openConnection()
-    cursor.execute("SELECT id from user WHERE id=?", (userId,))
+    cursor.execute("SELECT id from active_user WHERE id=%s", (str(userId),))
     result = cursor.fetchall()
     print(result)
     closeConnection(conn, cursor)

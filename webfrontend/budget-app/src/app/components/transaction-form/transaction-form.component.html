@@ -16,7 +16,7 @@
       <p>Category:</p>
       <select class="select" formControlName="category">
         <option value="" disabled>Choose a category</option>
-        <option *ngFor="let category of categories" [ngValue]="category">{{category[0]}} | {{category[1]}}</option>
+        <option *ngFor="let category of categories" [ngValue]="category">{{category[1]}} | {{category[2]}}</option>
       </select>
     </label>
     <label *ngIf="isNotIncome()">
@@ -30,6 +30,6 @@
       <p>% Paid by Me:</p>
       <input class="percentage-label" type="number" formControlName="myPortion" max="100" min="0">
     </label>
-    <button [disabled]="!transactionForm.valid" (click)="onSubmit()" class="btn btn-success"> Submit </button>
+    <button type=submit [disabled]="!transactionForm.valid" class="btn btn-success"> Submit </button>
   </form>
 </div>
