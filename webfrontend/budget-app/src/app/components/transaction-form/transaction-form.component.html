@@ -23,7 +23,7 @@
       <p>Split With:</p>
       <select class="select" formControlName="person">
         <option value="" disabled>Who to split with</option>
-        <option *ngFor="let person of people" [ngValue]="person">{{ person }}</option>
+        <option *ngFor="let person of people" [ngValue]="person">{{ person.name }}</option>
       </select>
     </label>
     <label *ngIf="isSplitTransaction() && isNotIncome()">

@@ -1,0 +1,4 @@
+WITH transactions AS (SELECT category_id, amount, date, comment, 'Expense' as transactionGroup, '' as person FROM expense WHERE user_id=%(userId)s
+UNION ALL SELECT category_id, amount, date, comment, 'Income' as transactionGroup, '' as person FROM income WHERE user_id=%(userId)s
+UNION ALL SELECT e.category_id, m.amount, e.date, e.comment, 'Money Lent' as transactionGroup, p.name FROM money_owed AS m, expense AS e, people AS p WHERE e.id = m.expense_id AND e.user_id = p.user_id AND p.user_id = m.user_id AND p.id = m.person_id AND p.user_id=%(userId)s)
+SELECT c.name, t.amount, t.date, t.comment, t.transactionGroup, t.person FROM transactions AS t, category AS c WHERE t.category_id = c.id AND c.user_id=%(userId)s;

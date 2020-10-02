@@ -9,6 +9,6 @@ export function isEmptyNullUndefined(variable: any): boolean {
 export const myPortionValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
   const person = control.get('person').value;
   const myPortion = control.get('myPortion').value;
-  return person !== 'No one' && (isEmptyNullUndefined(myPortion) || Number(myPortion) > 100 || Number(myPortion) < 0) ?
+  return person.name !== 'No one' && (isEmptyNullUndefined(myPortion) || Number(myPortion) > 100 || Number(myPortion) < 0) ?
     { noPortion: true } : null
 }

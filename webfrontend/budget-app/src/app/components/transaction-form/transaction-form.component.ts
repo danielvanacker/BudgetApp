@@ -11,13 +11,13 @@ import { isEmptyNullUndefined, myPortionValidator } from './transaction-form.uti
 
 export class TransactionFormComponent implements OnInit {
   public categories: string[];
-  public people: string[];
+  public people: any[];
   transactionForm = new FormGroup({
     date: new FormControl('', [Validators.required]),
     amount: new FormControl(0, [Validators.required]),
     comment: new FormControl(''),
     category: new FormControl('', [Validators.required]),
-    person: new FormControl('No one'),
+    person: new FormControl({id: -1, name: 'No one'}),
     myPortion: new FormControl(''),
   }, { validators: myPortionValidator });
 
@@ -32,9 +32,8 @@ export class TransactionFormComponent implements OnInit {
       });
     });
     this.apiservice.getPeople().subscribe((data: any) => {
-      this.people = data.map(person => {return person[0]});
-      console.log(this.people);
-      this.people.push('No one');
+      this.people = data.map(person => {return {id: person[0], name: person[1]}});
+      this.people.push({id: -1, name: 'No one'});
     });
   }
 
@@ -54,7 +53,7 @@ export class TransactionFormComponent implements OnInit {
 
   public isSplitTransaction(): boolean {
     const splitWith = this.transactionForm.value.person;
-    if(splitWith === 'No one' || splitWith === '') {
+    if(splitWith.name === 'No one') {
       return false;
     }
     return true;

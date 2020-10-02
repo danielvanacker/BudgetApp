@@ -33,8 +33,8 @@ def getCategorySpendByMonth(userId):
     result = []
     categories = repository.getAllExpenseCategories(userId)
     for category in categories:
-        row = {'category': category, 'transactionGroup': "Expense"}
-        row.update(listOfDictsToDict(repository.getAggregateSpendByCategory(category, userId)))
+        row = {'category': category[1], 'transactionGroup': "Expense"}
+        row.update(listOfDictsToDict(repository.getAggregateSpendByCategory(category[0], userId)))
         result.append(row)
     return result
 
@@ -42,8 +42,8 @@ def getCategoryIncomeByMonth(userId):
     result = []
     categories = repository.getAllIncomeCategories(userId)
     for category in categories:
-        row = {'category': category, 'transactionGroup': "Income"}
-        row.update(listOfDictsToDict(repository.getAggregateIncomeByCategory(category, userId)))
+        row = {'category': category[1], 'transactionGroup': "Income"}
+        row.update(listOfDictsToDict(repository.getAggregateIncomeByCategory(category[0], userId)))
         result.append(row)
     return result
 
@@ -62,8 +62,8 @@ def insertTransaction(transaction, userId):
     amount = transaction[c.AMOUNT]
     categoryId = transaction[c.CATEGORY][0]
     isIncome = transaction[c.CATEGORY][2] == c.INCOME
-    isSplit = transaction[c.SPLIT_WITH] != c.NO_SPLIT
-    splitWith = transaction[c.SPLIT_WITH]
+    isSplit = transaction[c.SPLIT_WITH][c.NAME] != c.NO_SPLIT
+    splitWithId = transaction[c.SPLIT_WITH][c.ID]
     myPortion = transaction[c.MY_PORTION]
 
     if(isIncome):
@@ -72,8 +72,8 @@ def insertTransaction(transaction, userId):
     elif(isSplit):
         expensePortion = amount * myPortion/100
         moneyOwed = amount - expensePortion
-        expenseId = repository.insertExpense(date, expensePortion, comment, category, userId) #not done
-        repository.insertMoneyOwed(date, moneyOwed, comment, splitWith, expenseId, userId) #not done
+        expenseId = repository.insertExpense(date, expensePortion, comment, categoryId, userId)
+        repository.insertMoneyOwed(date, moneyOwed, comment, splitWithId, expenseId, userId)
 
     else:
         repository.insertExpense(date, amount, comment, categoryId, userId)
