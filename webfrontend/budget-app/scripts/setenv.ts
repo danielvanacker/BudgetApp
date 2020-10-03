@@ -17,7 +17,8 @@ const environmentFileContent = `
 export const environment = {
    production: ${isProduction},
    CLIENT_ID: "${process.env.CLIENT_ID}",
-   CLIENT_SECRET: "${process.env.CLIENT_SECRET}"
+   CLIENT_SECRET: "${process.env.CLIENT_SECRET}",
+   API_ENDPOINT: "${process.env.API_ENDPOINT}"
 };
 `;
 // write the content to the respective file

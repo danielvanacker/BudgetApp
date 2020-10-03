@@ -1,9 +1,9 @@
-import repository
-from models import constants as c
+from .repository import *
+from .models import constants as c
 from flask import jsonify
 
 def getTransactionMonths(userId):
-    return repository.getTransactionMonths(userId)
+    return repGetTransactionMonths(userId)
 
 def getElapsedBudget(userId):
     result = []
@@ -16,45 +16,45 @@ def getElapsedBudget(userId):
 
 def getTotalIncomeByMonth(userId):
     result = {'category': 'Total Income', 'transactionGroup': 'Aggregate'}
-    result.update(listOfDictsToDict(repository.getTotalIncomeByMonth(userId)))
+    result.update(listOfDictsToDict(repGetTotalIncomeByMonth(userId)))
     return [result]
 
 def getTotalExpensesByMonth(userId):
     result = {'category': 'Total Expenses', 'transactionGroup': 'Aggregate'}
-    result.update(listOfDictsToDict(repository.getTotalExpensesByMonth(userId)))
+    result.update(listOfDictsToDict(repGetTotalExpensesByMonth(userId)))
     return [result]
 
 def getNetIncomeByMonth(userId):
     result = {'category': 'Net Income (Out)', 'transactionGroup': 'Aggregate'}
-    result.update(listOfDictsToDict(repository.getNetIncomeByMonth(userId)))
+    result.update(listOfDictsToDict(repGetNetIncomeByMonth(userId)))
     return [result]
 
 def getCategorySpendByMonth(userId):
     result = []
-    categories = repository.getAllExpenseCategories(userId)
+    categories = repGetAllExpenseCategories(userId)
     for category in categories:
         row = {'category': category[1], 'transactionGroup': "Expense"}
-        row.update(listOfDictsToDict(repository.getAggregateSpendByCategory(category[0], userId)))
+        row.update(listOfDictsToDict(repGetAggregateSpendByCategory(category[0], userId)))
         result.append(row)
     return result
 
 def getCategoryIncomeByMonth(userId):
     result = []
-    categories = repository.getAllIncomeCategories(userId)
+    categories = repGetAllIncomeCategories(userId)
     for category in categories:
         row = {'category': category[1], 'transactionGroup': "Income"}
-        row.update(listOfDictsToDict(repository.getAggregateIncomeByCategory(category[0], userId)))
+        row.update(listOfDictsToDict(repGetAggregateIncomeByCategory(category[0], userId)))
         result.append(row)
     return result
 
 def getAllPeople(userId):
-    return repository.getAllPeople(userId)
+    return repGetAllPeople(userId)
 
 def getAllCategories(userId):
-    return repository.getAllCategories(userId)
+    return repGetAllCategories(userId)
 
 def getAllTransactions(userId):
-    return repository.getAllTransactions(userId)
+    return repGetAllTransactions(userId)
 
 def insertTransaction(transaction, userId):
     comment = transaction[c.COMMENT]
@@ -67,16 +67,16 @@ def insertTransaction(transaction, userId):
     myPortion = transaction[c.MY_PORTION]
 
     if(isIncome):
-        repository.insertIncome(date, amount, comment, categoryId, userId)
+        repInsertIncome(date, amount, comment, categoryId, userId)
 
     elif(isSplit):
         expensePortion = amount * myPortion/100
         moneyOwed = amount - expensePortion
-        expenseId = repository.insertExpense(date, expensePortion, comment, categoryId, userId)
-        repository.insertMoneyOwed(date, moneyOwed, comment, splitWithId, expenseId, userId)
+        expenseId = repInsertExpense(date, expensePortion, comment, categoryId, userId)
+        repInsertMoneyOwed(date, moneyOwed, comment, splitWithId, expenseId, userId)
 
     else:
-        repository.insertExpense(date, amount, comment, categoryId, userId)
+        repInsertExpense(date, amount, comment, categoryId, userId)
 
     return 'Success'
 
@@ -87,8 +87,8 @@ def listOfDictsToDict(listOfDicts):
     return result
 
 def validateSession(userId):
-    if(len(repository.getUser(userId)) == 0):
-        repository.addUser(userId)
+    if(len(repGetUser(userId)) == 0):
+        repAddUser(userId)
         return jsonify("Successfully added a new user.")
     else:
         return jsonify("Successfully authenticated existing user.")
