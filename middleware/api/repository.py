@@ -1,17 +1,25 @@
 import psycopg2
 import json
 import os
+from flask import g
+import sqlalchemy.pool as pool
 
-def openConnection():
-    conn = psycopg2.connect(
+def getConn():
+    return psycopg2.connect(
         host=os.environ['DB_HOST'],
         port=os.environ['DB_PORT'],
         database=os.environ['DB_NAME'],
         user=os.environ['DB_USER'],
         password=os.environ['DB_PW']
-
     )
 
+def createPool():
+    g.pool = pool.QueuePool(getConn, max_overflow=10, pool_size=5)
+
+def openConnection():
+    if not hasattr(g, 'pool'):
+        createPool()
+    conn = g.pool.connect()
     cursor = conn.cursor()
     return (conn, cursor)
 

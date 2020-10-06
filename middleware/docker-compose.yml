@@ -3,8 +3,15 @@ version: '3'
 services:
 
   api:
+    env_file: .env
     container_name: flask_api
     restart: always
+    environment:
+      - DB_HOST=$DB_HOST
+      - DB_PORT=$DB_PORT
+      - DB_NAME=$DB_NAME
+      - DB_USER=$DB_USER
+      - DB_PW=$DB_PW
     build: ./api
     volumes: ['./api:/api']
     networks:
