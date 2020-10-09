@@ -108,7 +108,7 @@ def repGetAggregateIncomeByCategory(categoryId, userId):
 
 def repGetTransactionMonths(userId):
     (conn, cursor) = openConnection()
-    cursor.execute("SELECT DISTINCT to_char(date, 'Mon-YYYY') FROM (SELECT DISTINCT date FROM income WHERE user_id=%(userId)s UNION SELECT DISTINCT date FROM expense WHERE user_id=%(userId)s) AS e;", {"userId": str(userId)})
+    cursor.execute("SELECT formatted_date FROM (SELECT DISTINCT ON (to_char(date, 'Mon-YYYY')) to_char(date, 'Mon-YYYY') AS formatted_date, date FROM (SELECT DISTINCT date FROM income WHERE user_id=%(userId)s UNION SELECT DISTINCT date FROM expense WHERE user_id=%(userId)s) AS e) t ORDER BY date", {"userId": str(userId)})
     result = cursor.fetchall()
     closeConnection(conn, cursor)
     return result
@@ -154,14 +154,32 @@ def repGetUser(userId):
     (conn, cursor) = openConnection()
     cursor.execute("SELECT id from active_user WHERE id=%s", (str(userId),))
     result = cursor.fetchall()
-    print(result)
     closeConnection(conn, cursor)
     return result
 
+def repInsertCategory(name, isIncome, userId):
+    (conn, cursor) = openConnection()
+    cursor.execute("INSERT INTO category (name, is_income, user_id) VALUES (%s, %s, %s) RETURNING id", (name, isIncome, str(userId)))
+    rowId = cursor.fetchone()[0]
+    closeConnection(conn, cursor)
+    return rowId
+
+def repInsertPerson(name, userId):
+    (conn, cursor) = openConnection()
+    cursor.execute("INSERT INTO people (name, user_id) VALUES (%s, %s) RETURNING id", (name, str(userId)))
+    rowId = cursor.fetchone()[0]
+    closeConnection(conn, cursor)
+    return rowId
+
+def repInsertBudget(month, year, amount, comment, categoryId, userId):
+    (conn, cursor) = openConnection()
+    cursor.execute("INSERT INTO budget (month, year, amount, comment, category_id, user_id) VALUES (%s, %s, %s, %s, %s, %s)", (month, year, amount, comment, categoryId, str(userId)))
+    closeConnection(conn, cursor)
+    return 'Success'
+
 def repAddUser(userId):
     (conn, cursor) = openConnection()
-    cursor.execute("INSERT INTO user (id) VALUES (%s) RETURNING id", (str(userId),))
+    cursor.execute("INSERT INTO active_user (id) VALUES (%s) RETURNING id", (str(userId),))
     rowId = cursor.fetchone()[0]
-    print(rowId)
     closeConnection(conn, cursor)
     return rowId

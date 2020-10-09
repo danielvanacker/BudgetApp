@@ -1,0 +1,31 @@
+<div class="transaction-form-wrapper">
+  <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+    <label>
+      <p>Month:</p>
+      <select class="select" formControlName="month">
+        <option value="" disabled>Choose a month</option>
+        <option *ngFor="let month of months" [ngValue]="month.index">{{month.name}}</option>
+      </select>
+    </label>
+    <label>
+      <p>Year:</p>
+      <input type="number" min="2019" step="1" formControlName="year">
+    </label>
+    <label>
+      <p>Amount:</p>
+      <input type="number" formControlName="amount">
+    </label>
+    <label>
+      <p>Comment:</p>
+      <input type="text" formControlName="comment">
+    </label>
+    <label>
+      <p>Category:</p>
+      <select class="select" formControlName="category">
+        <option value="" disabled>Choose a category</option>
+        <option *ngFor="let category of categories" [ngValue]="category">{{category[1]}} | {{category[2]}}</option>
+      </select>
+    </label>
+    <button type=submit [disabled]="!transactionForm.valid" class="btn btn-success"> Submit </button>
+  </form>
+</div>

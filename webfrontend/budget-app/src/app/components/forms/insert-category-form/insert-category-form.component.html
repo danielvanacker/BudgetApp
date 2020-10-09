@@ -1,0 +1,17 @@
+<div class="transaction-form-wrapper">
+  <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+    <label>
+      <p>Name:</p>
+      <input type="text" formControlName="name">
+    </label>
+    <label>
+      <p>Category type:</p>
+      <select class="select" formControlName="transactionType">
+        <option value="" disabled>Category type</option>
+        <option>Income</option>
+        <option>Expense</option>
+      </select>
+    </label>
+    <button type=submit [disabled]="!transactionForm.valid" class="btn btn-success"> Submit </button>
+  </form>
+</div>

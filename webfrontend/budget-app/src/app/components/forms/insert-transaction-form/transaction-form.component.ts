@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
-import { isEmptyNullUndefined, myPortionValidator } from './transaction-form.utils';
+import { isEmptyNullUndefined, myPortionValidator } from '../form.utils';
 
 @Component({
-  selector: 'transaction-form',
+  selector: 'insert-transaction-form',
   templateUrl: './transaction-form.component.html',
-  styleUrls: ['./transaction-form.component.scss']
+  styleUrls: ['../form.component.scss']
 })
 
 export class TransactionFormComponent implements OnInit {
@@ -38,11 +38,12 @@ export class TransactionFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.transactionForm.value);
+    this.transactionForm.disable();
     this.apiservice.addTransaction(this.transactionForm.value).subscribe(success => {
-      console.log(success);
+      this.transactionForm.enable();
     }, err => {
-
+      // TODO Toastr
+      this.transactionForm.enable();
     });
   }
 
