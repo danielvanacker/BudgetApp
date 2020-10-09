@@ -12,6 +12,7 @@ services:
       - DB_NAME=$DB_NAME
       - DB_USER=$DB_USER
       - DB_PW=$DB_PW
+      - GCP_KEY=$GCP_KEY
     build: ./api
     volumes: ['./api:/api']
     networks:
