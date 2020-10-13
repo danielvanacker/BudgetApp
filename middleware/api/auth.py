@@ -5,7 +5,8 @@ import os
 gcpKey = os.environ['GCP_KEY']
 
 def verifyUser(token):
-    if(token == 'local'): return 0
+    if(token == 'local'): return str(0)
+    elif(token == 'guest'): return str(1)
     try:
         idinfo = id_token.verify_oauth2_token(token, requests.Request(), gcpKey)
         userId = idinfo['sub']

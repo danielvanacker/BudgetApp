@@ -3,18 +3,108 @@
 .card {
   border-radius: 12px;
   box-shadow: 0 6px 10px -4px rgba(0,0,0,.15);
-  width: 500px;
-  height: 500px;
+  min-width: 375px;
+  width: 450px;
+  height: 400px;
 }
 
 .page-wrapper {
   background-color: $default-body-bg;
   height: 100vh;
+  overflow: auto;
+  display: flex;
+  justify-content:center;
+  align-items:center;
 }
 
-.centered {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.tabs {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  height: 100%;
+  min-width: 100px;
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  font-size: 3em;
+  justify-content:center;
+  align-items:center;
+
+  p {
+    font-size: 18px;
+  }
+}
+
+.top-tab {
+  border-top-left-radius: 12px;
+}
+
+.bottom-tab {
+  border-bottom-left-radius: 12px;
+}
+
+.body-wrapper {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.selected {
+  background-color: whitesmoke;
+
+
+  fa-icon, p {
+    color: $info-color;
+  }
+}
+
+.content-wrapper {
+  padding: 15px;
+  overflow-wrap: normal;
+  text-align: center;
+}
+
+.button-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn {
+  background-color: whitesmoke;
+  margin-top: 5px;
+}
+
+img {
+  width: 25px;
+  height: 25px;
+}
+
+.tab-icon {
+  float: left;
+}
+
+.status {
+  padding: 15px;
+  height: auto;
+}
+
+.login-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-me {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-method {
+  padding: 5px;
+}
+
+.contact-icon {
+  padding: 5px;
 }

@@ -30,6 +30,33 @@ def endCategories():
         response = jsonify(insertCategory(request.json, userId))
     return response
 
+@app.route('/income', methods=['GET'])
+def endIncome():
+    userId = verifyUser(request.headers.get('token'))
+    if(isInvalid(userId)):
+        return invalidUserResponse()
+
+    response = jsonify(getMonthlyIncome(request.args.get('month'), userId))
+    return response
+
+@app.route('/expenses', methods=['GET'])
+def endExpenses():
+    userId = verifyUser(request.headers.get('token'))
+    if(isInvalid(userId)):
+        return invalidUserResponse()
+
+    response = jsonify(getMonthlyExpenses(request.args.get('month'), userId))
+    return response 
+
+@app.route('/owed', methods=['GET'])
+def endOwedMoney():
+    userId = verifyUser(request.headers.get('token'))
+    if(isInvalid(userId)):
+        return invalidUserResponse()
+
+    response = jsonify(getOwedMoney(userId))
+    return response 
+
 @app.route('/transactions', methods=['GET', 'POST'])
 def endTransactions():
     userId = verifyUser(request.headers.get('token'))
@@ -43,11 +70,19 @@ def endTransactions():
     return response
 
 @app.route('/budget/elapsed', methods=['GET'])
-def endGetElapsedBudget():
+def endElapsedBudget():
     userId = verifyUser(request.headers.get('token'))
     if(isInvalid(userId)):
         return invalidUserResponse()
     response = jsonify(getElapsedBudget(userId))
+    return response
+
+@app.route('/budget/remaining', methods=['GET'])
+def endBudgetRemaining():
+    userId = verifyUser(request.headers.get('token'))
+    if(isInvalid(userId)):
+        return invalidUserResponse()
+    response = jsonify(getBudgetRemaining(request.args.get('month'), request.args.get('year'), userId))
     return response
 
 @app.route('/budget', methods=['POST'])

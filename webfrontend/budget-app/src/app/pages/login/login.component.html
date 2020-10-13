@@ -1,16 +1,56 @@
 <div class="page-wrapper">
   <div class="card-wrapper centered">
     <div class="card centered">
-      <div class="card-body">
-        <div class="card-title">
-          Welcome to Budget App!
+      <div class="body-wrapper">
+        <div class="tabs">
+          <div class="tab top-tab" [ngClass]="{'selected': signInSelected}" (click)="signInTabClick()">
+            <fa-icon [icon]="faUserCircle"></fa-icon>
+            <p>Login</p>
+          </div>
+          <div class="tab bottom-tab" [ngClass]="{'selected': !signInSelected}" (click)="infoTabClick()">
+            <fa-icon [icon]="faInfo"></fa-icon>
+            <p>About</p>
+          </div>
         </div>
-        <div class="card-subtitle text-muted">
-          Please sign in to continue.
+        <div class="content-wrapper">
+          <div class="login-content" *ngIf="signInSelected">
+            <h1>Welcome to My Budget</h1>
+            <h5>Please sing in with Google below. If you would like to preview the app please sign in as a guest.</h5>
+            <div class="button-wrapper">
+              <button class="btn btn-google" (click)="login(false)">
+                <img class="tab-icon" src="https://img.icons8.com/color/30/000000/google-logo.png"/>
+                <span>Login with Google</span>
+              </button>
+              <button class="btn btn-trial" (click)="login(true)">
+                <img class="tab-icon" src="../../../piggy.png">
+                <span>Login as guest</span>
+              </button>
+            </div>
+            <span class="status">{{message}}</span>
+          </div>
+          <div *ngIf="!signInSelected">
+            <h5>Hi my name is Daniel.</h5>
+            <p>
+              I'm in my final year at McGill University studying computer science.
+              I made this app to suit my personal preferences when making a budget and learn about some new technologies.
+              The source code for this app can be found <a href="https://github.com/danielvanacker/BudgetApp" target="_blank">here</a>. Feel free to ping me!
+            </p>
+            <div class="contact-me">
+              <span class="contact-method">
+                <img class="contact-icon" src="https://img.icons8.com/fluent/48/000000/github.png"/>
+                <a href="https://github.com/danielvanacker/" target="_blank">Github</a>
+              </span>
+              <span class="contact-method">
+                <img class="contact-icon" src="https://img.icons8.com/metro/26/000000/email.png"/>
+                <a href="mailto: daniel.vanacker@mail.mcgill.ca" target="_blank">Email</a>
+              </span>
+              <span class="contact-method">
+                <img class="contact-icon" src="https://img.icons8.com/metro/52/000000/linkedin.png"/>
+                <a href="https://www.linkedin.com/in/danvanacker/" target="_blank">Linkedin</a>
+              </span>
+            </div>
+          </div>
         </div>
-        <button (click)="login()">Login with Google</button>
-        <button (click)="logout()">Logout</button>
-        {{message}}
       </div>
     </div>
   </div>

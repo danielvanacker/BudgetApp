@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -8,16 +8,20 @@ import { environment } from '../../environments/environment';
 export class AuthService {
 
   // inspired and partially coppied from https://github.com/jorgecf/google-oauth-angular
-  public gapiSetup: boolean = false; // marks if the gapi library has been loaded
+  public gapiSetup = false; // marks if the gapi library has been loaded
   public authInstance: gapi.auth2.GoogleAuth;
   public error: string;
   public user: gapi.auth2.GoogleUser;
 
-  async ngOnInit() {
-    if (await this.getIsLoggedIn()) {
-      console.log("getting uer")
-      this.user = this.authInstance.currentUser.get();
-    }
+  // async ngOnInit() {
+  //   if (await this.getIsLoggedIn()) {
+  //     console.log('getting uer');
+  //     this.user = this.authInstance.currentUser.get();
+  //   }
+  // }
+
+  setGuestUser() {
+
   }
 
   async initGoogleAuth(): Promise<void> {
@@ -41,7 +45,7 @@ export class AuthService {
 
   // Gets the user idToken
   getUserId(): Observable<any>{
-    if(!this.user) {
+    if (!this.user) {
       this.user = this.authInstance.currentUser.get();
     }
     const idToken: string = this.user.getAuthResponse().id_token;
@@ -59,12 +63,10 @@ export class AuthService {
       user => this.user = user,
       error => this.error = error
     );
-    console.log("Below is user")
-    console.log(this.user)
   }
 
   async logout(): Promise<void> {
-    //Initialize gapi if not done
+    // Initialize gapi if not done
     if(!this.gapiSetup) {
       await this.initGoogleAuth();
     }
@@ -75,6 +77,10 @@ export class AuthService {
 
   async getIsLoggedIn(): Promise<boolean> {
     // Initialize gapi if not done yet
+    if (sessionStorage.getItem('token') === 'guest') {
+      return true;
+    }
+
     if (!this.gapiSetup) {
       await this.initGoogleAuth();
     }
@@ -83,7 +89,16 @@ export class AuthService {
   }
 
   getUserProfile(): Observable<any> {
-    if(!this.user) {
+    if (sessionStorage.getItem('token') === 'guest') {
+      return of({firstName: 'Guest',
+        lastName: 'Account',
+        email: 'guest.account@mybudgetapp.com',
+        imageUrl: '../../assets/guest-user.jpeg'
+        });
+    }
+
+
+    if (!this.user) {
       this.user = this.authInstance.currentUser.get();
     }
     const profile = this.user.getBasicProfile()
@@ -91,6 +106,6 @@ export class AuthService {
     lastName: profile.getFamilyName(),
     email: profile.getEmail(),
     imageUrl: profile.getImageUrl()
-  })
+    });
   }
 }

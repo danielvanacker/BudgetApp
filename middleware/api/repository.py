@@ -183,3 +183,31 @@ def repAddUser(userId):
     rowId = cursor.fetchone()[0]
     closeConnection(conn, cursor)
     return rowId
+
+def repGetMonthlyIncome(month, userId):
+    (conn, cursor) = openConnection()
+    cursor.execute("SELECT SUM(amount) FROM income WHERE extract(month from date)=%s AND user_id=%s;", (month, str(userId),))
+    result = cursor.fetchall()
+    closeConnection(conn, cursor)
+    return result
+
+def repGetMonthlyExpenses(month, userId):
+    (conn, cursor) = openConnection()
+    cursor.execute("SELECT SUM(amount) FROM expense WHERE extract(month from date)=%s AND user_id=%s;", (month, str(userId),))
+    result = cursor.fetchall()
+    closeConnection(conn, cursor)
+    return result
+
+def repGetMonthlyBudget(month, year, userId):
+    (conn, cursor) = openConnection()
+    cursor.execute("SELECT SUM(amount) FROM budget WHERE month=%s AND year=%s AND user_id=%s;", (month, year, str(userId),))
+    result = cursor.fetchall()
+    closeConnection(conn, cursor)
+    return result
+
+def repGetOwedMoney(userId):
+    (conn, cursor) = openConnection()
+    cursor.execute("SELECT SUM(amount) FROM money_owed WHERE user_id=%s;", (str(userId),))
+    result = cursor.fetchall()
+    closeConnection(conn, cursor)
+    return result

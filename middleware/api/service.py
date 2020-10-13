@@ -2,6 +2,18 @@ from .repository import *
 from .models import constants as c
 from flask import jsonify
 
+def getMonthlyIncome(month, userId):
+    return repGetMonthlyIncome(month, userId)
+
+def getBudgetRemaining(month, year, userId):
+    return (repGetMonthlyBudget(month, year, userId)[0][0] or 0) - (repGetMonthlyExpenses(month, userId)[0][0] or 0)
+
+def getMonthlyExpenses(month, userId):
+    return repGetMonthlyExpenses(month, userId)
+
+def getOwedMoney(userId):
+    return repGetOwedMoney(userId)
+
 def getTransactionMonths(userId):
     return repGetTransactionMonths(userId)
 

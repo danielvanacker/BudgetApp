@@ -15,8 +15,6 @@ import { TransactionFormComponent } from 'src/app/components/forms/insert-transa
 import { InsertCategoryFormComponent } from 'src/app/components/forms/insert-category-form/insert-category-form.component';
 import { InsertPersonFormComponent } from 'src/app/components/forms/insert-person-form/insert-person-form.component';
 import { InsertBudgetFormComponent } from 'src/app/components/forms/insert-budget-form/insert-budget-form.component';
-import { CollapsibleCardComponent } from 'src/app/components/collapsible-card/collapsible-card.component';
-
 
 
 @NgModule({
@@ -29,8 +27,7 @@ import { CollapsibleCardComponent } from 'src/app/components/collapsible-card/co
     InfoCardComponent,
     InsertCategoryFormComponent,
     InsertPersonFormComponent,
-    InsertBudgetFormComponent,
-    CollapsibleCardComponent,
+    InsertBudgetFormComponent
   ],
   imports: [
     RouterModule.forChild(UserLayoutRoutes),

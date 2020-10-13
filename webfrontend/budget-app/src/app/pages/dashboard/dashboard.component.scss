@@ -1,5 +1,10 @@
 @import '../../../global-styles/app-styles.scss';
 
+.card-header {
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+
 .card-wrapper {
   margin-top: 20px;
 }
@@ -11,4 +16,9 @@
 
 .grid {
   margin: 7px;
+}
+
+.info-card {
+  min-width: 200px;
+  margin-top: 15px;
 }
