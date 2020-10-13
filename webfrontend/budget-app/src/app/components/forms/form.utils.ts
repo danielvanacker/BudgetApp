@@ -12,3 +12,9 @@ export const myPortionValidator: ValidatorFn = (control: FormGroup): ValidationE
   return person.name !== 'No one' && (isEmptyNullUndefined(myPortion) || Number(myPortion) > 100 || Number(myPortion) < 0) ?
     { noPortion: true } : null
 }
+
+export const yearValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
+  const year = Number(control.get('year').value);
+  return !Number.isInteger(year) || year < 2000 || isNaN(year) || isEmptyNullUndefined(year) ?
+    { invalidYear: true } : null
+}

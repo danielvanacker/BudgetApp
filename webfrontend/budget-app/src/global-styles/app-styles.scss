@@ -15,13 +15,14 @@
   overflow: auto;
   background-color: $default-body-bg;
   width: 100%;
+  overflow: auto;
 }
 
 .wrapper {
-  height: 100vh;
   display: flex;
   flex-direction: row;
   font-family: $sans-serif-family;
+  height: 100vh;
 }
 
 .page-wrapper {

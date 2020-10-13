@@ -18,7 +18,7 @@ import { AuthService } from './services/auth.service';
     AppComponent,
     SidebarComponent,
     UserLayoutComponent,
-    LoginComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

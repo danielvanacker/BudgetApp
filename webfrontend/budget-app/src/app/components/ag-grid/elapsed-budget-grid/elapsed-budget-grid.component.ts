@@ -30,7 +30,6 @@ export class ElapsedBudgetGridComponent implements OnInit {
 
   private getColumnDefs(): void {
     this.apiservice.getTransactionMonths().pipe(take(1)).subscribe((months: string[]) => {
-      debugger;
       const colDefs: ColDef[] = [];
       ELAPSED_BUDGET_GRID_BASE_COL_DEFS.forEach(item => {
         colDefs.push(item);
@@ -61,7 +60,6 @@ export class ElapsedBudgetGridComponent implements OnInit {
 
   private getGridData(): void {
     this.apiservice.getElapsedBudget().pipe(take(1)).subscribe((data) => {
-      debugger;
       this.rowData = data;
     });
   }

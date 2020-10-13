@@ -1,3 +1,7 @@
+
 export const environment = {
-  production: true
+   production: true,
+   CLIENT_ID: "",
+   CLIENT_SECRET: "",
+   API_ENDPOINT: ""
 };

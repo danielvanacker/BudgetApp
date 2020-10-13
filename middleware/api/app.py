@@ -1,60 +1,99 @@
 import flask
-from flask import jsonify, request, Response, make_response
+from flask import jsonify, request, Response, make_response, g
 from flask_cors import CORS, cross_origin
 from .service import *
 from .auth import *
 
 app = flask.Flask(__name__)
-cors = CORS(app, origins=['localhost:4200'])
+cors = CORS(app)
 app.config["DEBUG"] = True
 
-@app.route('/people', methods=['GET'])
-@cross_origin()
+@app.route('/people', methods=['GET', 'POST'])
 def endGetPeople():
     userId = verifyUser(request.headers.get('token'))
     if(isInvalid(userId)):
         return invalidUserResponse()
-    response = jsonify(getAllPeople(userId))
+    if(flask.request.method == 'GET'):
+        response = jsonify(getAllPeople(userId))
+    else: #method == 'POST'
+        response = jsonify(insertPerson(request.json, userId))
     return response
 
-@app.route('/categories', methods=['GET'])
-@cross_origin()
-def endGetCategories():
+@app.route('/categories', methods=['GET', 'POST'])
+def endCategories():
     userId = verifyUser(request.headers.get('token'))
     if(isInvalid(userId)):
         return invalidUserResponse()
-    response = jsonify(getAllCategories(userId))
+    if(flask.request.method == 'GET'):
+        response = jsonify(getAllCategories(userId))
+    else: #method == 'POST'
+        response = jsonify(insertCategory(request.json, userId))
     return response
 
-@app.route('/transaction', methods=['POST'])
-@cross_origin()
-def endInsertTransaction():
+@app.route('/income', methods=['GET'])
+def endIncome():
     userId = verifyUser(request.headers.get('token'))
     if(isInvalid(userId)):
         return invalidUserResponse()
-    response = jsonify(insertTransaction(request.json, userId))
+
+    response = jsonify(getMonthlyIncome(request.args.get('month'), userId))
     return response
 
-@app.route('/transactions', methods=['GET'])
-@cross_origin()
-def endGetAllTransactions():
+@app.route('/expenses', methods=['GET'])
+def endExpenses():
     userId = verifyUser(request.headers.get('token'))
     if(isInvalid(userId)):
         return invalidUserResponse()
-    response = jsonify(getAllTransactions(userId))
+
+    response = jsonify(getMonthlyExpenses(request.args.get('month'), userId))
+    return response 
+
+@app.route('/owed', methods=['GET'])
+def endOwedMoney():
+    userId = verifyUser(request.headers.get('token'))
+    if(isInvalid(userId)):
+        return invalidUserResponse()
+
+    response = jsonify(getOwedMoney(userId))
+    return response 
+
+@app.route('/transactions', methods=['GET', 'POST'])
+def endTransactions():
+    userId = verifyUser(request.headers.get('token'))
+    if(isInvalid(userId)):
+        return invalidUserResponse()
+    
+    if(flask.request.method == 'GET'):
+        response = jsonify(getAllTransactions(userId))
+    else: #method == 'POST'
+        response = jsonify(insertTransaction(request.json, userId))
     return response
 
 @app.route('/budget/elapsed', methods=['GET'])
-@cross_origin()
-def endGetElapsedBudget():
+def endElapsedBudget():
     userId = verifyUser(request.headers.get('token'))
     if(isInvalid(userId)):
         return invalidUserResponse()
     response = jsonify(getElapsedBudget(userId))
     return response
 
+@app.route('/budget/remaining', methods=['GET'])
+def endBudgetRemaining():
+    userId = verifyUser(request.headers.get('token'))
+    if(isInvalid(userId)):
+        return invalidUserResponse()
+    response = jsonify(getBudgetRemaining(request.args.get('month'), request.args.get('year'), userId))
+    return response
+
+@app.route('/budget', methods=['POST'])
+def endInsertBudget():
+    userId = verifyUser(request.headers.get('token'))
+    if(isInvalid(userId)):
+        return invalidUserResponse()
+    response = jsonify(insertBudget(request.json, userId))
+    return response
+
 @app.route('/transaction/months', methods=['GET'])
-@cross_origin()
 def endGetTransactionMonths():
     userId = verifyUser(request.headers.get('token'))
     if(isInvalid(userId)):

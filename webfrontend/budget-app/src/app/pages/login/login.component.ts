@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { environment } from '../../../environments/environment';
+import { faUserCircle, faInfo } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-login',
@@ -11,8 +11,11 @@ import { environment } from '../../../environments/environment';
 })
 export class LoginComponent implements OnInit {
 
-  public message: string = 'status: logged out'
-  private route: string = '/dashboard';
+  public faInfo = faInfo;
+  public faUserCircle = faUserCircle;
+  public message = 'status: logged out';
+  private route = '/dashboard';
+  public signInSelected = true;
 
   constructor(public authService: AuthService, public router: Router, public apiService: ApiService) { }
 
@@ -25,28 +28,43 @@ export class LoginComponent implements OnInit {
       this.message = 'status: logged in';
       this.router.navigate([this.route]);
     } else {
-      this.message = 'status: logged out'
+      this.message = '';
     }
   }
 
-  async login() {
+  async login(isGuest: boolean) {
+    if (isGuest) {
+      this.message = 'Logging in as Guest...';
+      sessionStorage.setItem('token', 'guest');
+      this.router.navigate([this.route]);
+      return;
+    }
+
     await this.authService.authenticate();
     this.authService.getUserId().subscribe((idToken) => {
+      this.message = 'Logging in...';
       this.apiService.validateUserSession(idToken).subscribe(
         resp => {
-          console.log(resp)
-          sessionStorage.setItem('token', idToken)
+          sessionStorage.setItem('token', idToken);
           this.router.navigate([this.route]);
         },
         err => {
-          this.authService.logout()
+          this.authService.logout();
           this.message = 'Error logging in. Please try again or contact support.';
-        })
-    })
+        });
+    });
   }
 
   logout() {
     this.router.navigate([this.route]);
+  }
+
+  signInTabClick() {
+    this.signInSelected = true;
+  }
+
+  infoTabClick() {
+    this.signInSelected = false;
   }
 
 

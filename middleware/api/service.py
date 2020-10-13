@@ -2,6 +2,18 @@ from .repository import *
 from .models import constants as c
 from flask import jsonify
 
+def getMonthlyIncome(month, userId):
+    return repGetMonthlyIncome(month, userId)
+
+def getBudgetRemaining(month, year, userId):
+    return (repGetMonthlyBudget(month, year, userId)[0][0] or 0) - (repGetMonthlyExpenses(month, userId)[0][0] or 0)
+
+def getMonthlyExpenses(month, userId):
+    return repGetMonthlyExpenses(month, userId)
+
+def getOwedMoney(userId):
+    return repGetOwedMoney(userId)
+
 def getTransactionMonths(userId):
     return repGetTransactionMonths(userId)
 
@@ -55,6 +67,31 @@ def getAllCategories(userId):
 
 def getAllTransactions(userId):
     return repGetAllTransactions(userId)
+
+def insertCategory(category, userId):
+    name = category[c.NAME]
+    isIncome = category[c.TRANSACTION_TYPE] == c.INCOME
+    repInsertCategory(name, isIncome, userId)
+
+    return 'Success'
+
+def insertPerson(person, userId):
+    name = person[c.NAME]
+    repInsertPerson(name, userId)
+
+    return 'Success'
+
+def insertBudget(budget, userId):
+    comment = budget[c.COMMENT]
+    categoryId = budget[c.CATEGORY][0]
+    amount = budget[c.AMOUNT]
+    month = budget[c.MONTH]
+    year = budget[c.YEAR]
+    repInsertBudget(month, year, amount, comment, categoryId, userId)
+
+    return 'Success'
+
+
 
 def insertTransaction(transaction, userId):
     comment = transaction[c.COMMENT]

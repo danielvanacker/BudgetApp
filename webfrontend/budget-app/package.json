@@ -4,8 +4,9 @@
   "scripts": {
     "ng": "ng",
     "config": "ts-node ./scripts/setenv.ts",
-    "start": "npm run config -- --environment=dev && ng serve",
-    "build": "npm run config -- --environment=prod && ng build",
+    "start-docker": "npm run config -- --environment=dev-docker && ng serve",
+    "start-debug": "npm run config -- --environment=dev-debug && ng serve",
+    "build": "npm run config -- --environment=prod && ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -21,8 +22,8 @@
     "@angular/platform-browser-dynamic": "~9.1.9",
     "@angular/router": "~9.1.9",
     "@fortawesome/angular-fontawesome": "^0.6.1",
-    "@fortawesome/fontawesome-svg-core": "^1.2.30",
-    "@fortawesome/free-solid-svg-icons": "^5.14.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@types/gapi": "0.0.39",
     "@types/gapi.auth2": "0.0.52",
     "ag-grid-angular": "^23.2.1",
