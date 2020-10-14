@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError, of } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -16,11 +15,11 @@ export class ApiService {
 
   public getPeople(): Observable<any> {
     return this.http.get('people');
-  };
+  }
 
   public getCategories(): Observable<any> {
     return this.http.get('categories');
-  };
+  }
 
   public getTransactionMonths(): Observable<any> {
     return this.http.get('transaction/months');

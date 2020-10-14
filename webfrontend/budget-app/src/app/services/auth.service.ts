@@ -66,8 +66,13 @@ export class AuthService {
   }
 
   async logout(): Promise<void> {
+    if (sessionStorage.getItem('token') === 'guest') {
+      sessionStorage.clear();
+      return;
+    }
+
     // Initialize gapi if not done
-    if(!this.gapiSetup) {
+    if (!this.gapiSetup) {
       await this.initGoogleAuth();
     }
 
